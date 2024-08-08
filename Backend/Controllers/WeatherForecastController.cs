@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace DealMate.Controllers
+namespace DealMate.Backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]

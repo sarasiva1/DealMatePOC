@@ -1,10 +1,10 @@
-﻿using DealMate.Infrastructure.DB;
+﻿using DealMate.Backend.Infrastructure.DB;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace DealMate.Infrastructure;
+namespace DealMate.Backend.Infrastructure;
 
 public static class ServiceCollectionExtensions
 {

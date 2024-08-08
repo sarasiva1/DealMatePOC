@@ -1,9 +1,9 @@
-﻿using DealMate.Domain.Aggregates;
-using DealMate.Infrastructure.DB;
-using DealMate.Infrastructure.Interfaces;
+﻿using DealMate.Backend.Domain.Aggregates;
+using DealMate.Backend.Infrastructure.DB;
+using DealMate.Backend.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace DealMate.Infrastructure.Repositories;
+namespace DealMate.Backend.Infrastructure.Repositories;
 
 public class DealerRepository : IDealerRepository
 {

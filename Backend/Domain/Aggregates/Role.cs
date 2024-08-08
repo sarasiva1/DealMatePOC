@@ -1,4 +1,4 @@
-﻿namespace DealMate.Domain.Aggregates;
+﻿namespace DealMate.Backend.Domain.Aggregates;
 
 public class Role
 {

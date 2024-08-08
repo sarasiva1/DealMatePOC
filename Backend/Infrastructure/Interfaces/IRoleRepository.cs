@@ -1,6 +1,6 @@
-﻿using DealMate.Domain.Aggregates;
+﻿using DealMate.Backend.Domain.Aggregates;
 
-namespace DealMate.Infrastructure.Interfaces;
+namespace DealMate.Backend.Infrastructure.Interfaces;
 
 public interface IRoleRepository
 {
