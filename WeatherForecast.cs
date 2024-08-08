@@ -1,4 +1,4 @@
-namespace DealMate.Backend
+namespace DealMate
 {
     public class WeatherForecast
     {

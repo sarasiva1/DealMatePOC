@@ -1,6 +1,6 @@
 using DealMate;
-using DealMate.Backend.Infrastructure;
-using DealMate.Backend.Infrastructure.DB;
+using DealMate.Infrastructure;
+using DealMate.Infrastructure.DB;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 

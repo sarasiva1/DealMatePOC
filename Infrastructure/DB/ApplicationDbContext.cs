@@ -1,7 +1,7 @@
-﻿using DealMate.Backend.Domain.Aggregates;
+﻿using DealMate.Domain.Aggregates;
 using Microsoft.EntityFrameworkCore;
 
-namespace DealMate.Backend.Infrastructure.DB
+namespace DealMate.Infrastructure.DB
 {
     public class ApplicationDbContext : DbContext
     {
