@@ -1,10 +1,10 @@
-﻿using DealMate.Domain.Aggregates;
+﻿using DealMate.Backend.Domain.Aggregates;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace DealMate.Service.Authentication;
+namespace DealMate.Backend.Service.Authentication;
 
 public class JWTToken
 {

@@ -1,4 +1,4 @@
-﻿namespace DealMate.Domain.Aggregates;
+﻿namespace DealMate.Backend.Domain.Aggregates;
 
 public class Role
 {
@@ -11,11 +11,9 @@ public class Role
     {
         public enum Roles
         {
-            Unspecified = 0,
-            CRE = 1,
-            FinalInspector = 2,
-            ServiceAdvisor = 3,
-            Security = 4
+            Admin = 0,
+            Associate = 1,
+            Managerial = 2
         }
     }
 }

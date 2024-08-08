@@ -1,8 +1,4 @@
-using DealMate;
-using DealMate.Infrastructure;
-using DealMate.Infrastructure.DB;
-using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
+using DealMate.Backend.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
