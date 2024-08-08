@@ -1,0 +1,12 @@
+# dotnet projects
+bin/
+obj/
+launchSettings.json
+*.csproj.user
+*.user
+*.Designer.cs
+!**/Migrations/*.Designer.cs
+msbuild.binlog
+
+# visual studio cache
+.vs
