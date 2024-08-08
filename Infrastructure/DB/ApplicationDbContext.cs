@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using DealMate.Domain.Aggregates;
+using Microsoft.EntityFrameworkCore;
 
-namespace DealMate
+namespace DealMate.Infrastructure.DB
 {
     public class ApplicationDbContext : DbContext
     {
@@ -11,6 +11,9 @@ namespace DealMate
             this.configuration = configuration;
         }
 
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Dealer> Dealers { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Branch> Branches { get; set; }
     }
 }
