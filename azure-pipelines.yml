@@ -1,32 +1,28 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
+
+variables:
+  DB_SERVER: '<dealmatepoc123>'
+  DB_NAME: '<postgres>'
+  DB_USER: '<dealmatepoc>'
+  DB_PASSWORD: $(DB_PASSWORD) # Use Azure DevOps Pipeline secrets
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+    addToPath: true
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script' 
+    pip install flywaydb
+  displayName: 'Install Flyway'
 
-- task: SqlAzureDacpacDeployment@1
-  inputs:
-    azureSubscription: 'Dealmate poc'
-    AuthenticationType: 'server'
-    ServerName: 'dealmatepoc123.postgres.database.azure.com'
-    DatabaseName: 'dealmatepoc'
-    SqlUsername: 'dealmatepoc'
-    SqlPassword: 'Password@123'
-    deployType: 'DacpacTask'
-    DeploymentAction: 'Publish'
-    DacpacFile: 'DealmateDb.dacpac'
-    IpDetectionMethod: 'AutoDetect'
+- script: |
+    flyway -url=jdbc:postgresql://$(DB_SERVER).postgres.database.azure.com:5432/$(DB_NAME) \
+           -user=$(DB_USER) \
+           -password=$(DB_PASSWORD) \
+           migrate
+  displayName: 'Run Flyway Migrations'
