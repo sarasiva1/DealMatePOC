@@ -1,6 +1,6 @@
 ﻿using DealMate.Backend.Domain.Aggregates;
 using DealMate.Backend.Infrastructure.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+using DealMate.Backend.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,13 +8,13 @@ namespace DealMate.Backend.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class EmployeeController : ControllerBase
+    public class RoleController : ControllerBase
     {
-        private readonly IEmployeeRepository employeeRepository;
-        private readonly IRepository<Employee> repository;
-        public EmployeeController(IEmployeeRepository employeeRepository, IRepository<Employee> repository)
+        private readonly IRoleRepository roleRepository;
+        private readonly IRepository<Role> repository;
+        public RoleController(IRoleRepository roleRepository, IRepository<Role> repository)
         {
-            this.employeeRepository = employeeRepository;
+            this.roleRepository = roleRepository;
             this.repository = repository;
         }
 
@@ -31,23 +31,21 @@ namespace DealMate.Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Employee employee)
+        public async Task<IActionResult> Create(Role role)
         {
-            return Ok(await employeeRepository.Create(employee));
+            return Ok(await roleRepository.Create(role));
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] Employee employee)
+        public async Task<IActionResult> Update([FromBody] Role role)
         {
-            return Ok(await employeeRepository.Update(employee));
+            return Ok(await roleRepository.Update(role));
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            return Ok(await employeeRepository.Delete(id));
+            return Ok(await roleRepository.Delete(id));
         }
-
     }
-    
 }

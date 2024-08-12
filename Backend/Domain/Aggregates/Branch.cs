@@ -7,5 +7,5 @@ public class Branch
     public int DealerId { get; set; }
 
     // Navigation property
-    public Dealer Dealer { get; set; } = null!;
+    public Dealer? Dealer { get; set; } 
 }

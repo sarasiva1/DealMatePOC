@@ -1,6 +1,5 @@
 ﻿using DealMate.Backend.Domain.Aggregates;
 using DealMate.Backend.Infrastructure.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,13 +7,13 @@ namespace DealMate.Backend.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class EmployeeController : ControllerBase
+    public class BranchController : ControllerBase
     {
-        private readonly IEmployeeRepository employeeRepository;
-        private readonly IRepository<Employee> repository;
-        public EmployeeController(IEmployeeRepository employeeRepository, IRepository<Employee> repository)
+        private readonly IBranchRepository branchRepository;
+        private readonly IRepository<Branch> repository;
+        public BranchController(IBranchRepository branchRepository, IRepository<Branch> repository)
         {
-            this.employeeRepository = employeeRepository;
+            this.branchRepository = branchRepository;
             this.repository = repository;
         }
 
@@ -31,23 +30,23 @@ namespace DealMate.Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Employee employee)
+        public async Task<IActionResult> Create(Branch branch)
         {
-            return Ok(await employeeRepository.Create(employee));
+            return Ok(await branchRepository.Create(branch));
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] Employee employee)
+        public async Task<IActionResult> Update([FromBody] Branch branch)
         {
-            return Ok(await employeeRepository.Update(employee));
+            return Ok(await branchRepository.Update(branch));
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            return Ok(await employeeRepository.Delete(id));
+            return Ok(await branchRepository.Delete(id));
         }
 
+
     }
-    
 }

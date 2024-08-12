@@ -36,6 +36,8 @@ public static class ServiceCollectionExtensions
         });
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<IDealerRepository, DealerRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IBranchRepository, BranchRepository>();
         return services;
     }
 }

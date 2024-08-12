@@ -10,50 +10,78 @@ namespace DealMate.Backend.Infrastructure.Repositories
 {
     public class EmployeeRepository: IEmployeeRepository
     {
-        private readonly ApplicationDbContext db;
-        public EmployeeRepository(ApplicationDbContext db)
+        private readonly IRepository<Employee> repository;
+        private readonly IRepository<Branch> branchRepository;
+        private readonly IRepository<Role> roleRepository;
+        public EmployeeRepository(IRepository<Employee> repository, IRepository<Branch> branchRepository
+            , IRepository<Role> roleRepository)
         {
-            this.db = db;
+            this.repository = repository;
+            this.branchRepository = branchRepository;
+            this.roleRepository = roleRepository;
         }
 
         public async Task<Employee> Create(Employee employee)
         {
-            var alreadyExist = await db.Employee.FirstOrDefaultAsync(_ => _.Email == employee.Email);
-            if (alreadyExist != null)
+            var existEmployee = await repository.FindAsync(x => x.Email == employee.Email);
+            if (existEmployee.Any())
             {
-                throw new Exception($"The Emai:{employee.Email} already exists");
+                throw new Exception($"The Employee Email {employee.Name} was already exist");
             }
-            
-            await db.Employee.AddAsync(employee);
-            await db.SaveChangesAsync();
+            var branch = await branchRepository.GetByIdAsync(employee.BranchId);
+            if(branch == null)
+            {
+                throw new Exception($"The BranchID {employee.BranchId} not exist");
+            }
+            var role = await roleRepository.GetByIdAsync(employee.RoleId);
+            if (role == null)
+            {
+                throw new Exception($"The RoleID {employee.RoleId} not exist");
+            }
+            employee = await repository.AddAsync(employee);
             return employee;
         }
 
         public async Task<Employee> Update(Employee employee)
         {
-            var alreadyExist = await db.Employee.FirstOrDefaultAsync(_ => _.Id == employee.Id);
-            if (alreadyExist == null)
+            var existEmployee = await repository.GetByIdAsync(employee.Id);
+            if (existEmployee == null)
             {
-                throw new Exception($"The Employee Id:{employee.Id} was not found");
+                throw new Exception($"The EmployeeID {employee.Id} not exist");
             }
-            alreadyExist.Name = alreadyExist.Name != employee.Name ? employee.Name : alreadyExist.Name;
-            alreadyExist.Email = alreadyExist.Email != employee.Email ? employee.Email : alreadyExist.Email;
-            alreadyExist.Password = alreadyExist.Password != employee.Password ? employee.Password : alreadyExist.Password;
-            
-            await db.SaveChangesAsync();
-            return alreadyExist;
+            existEmployee.Name = existEmployee.Name != employee.Name? employee.Name: existEmployee.Name;
+            existEmployee.Password = existEmployee.Password != employee.Password ? employee.Password : existEmployee.Password;
+            if(existEmployee.BranchId != employee.BranchId)
+            {
+                var branch = await branchRepository.GetByIdAsync(employee.BranchId);
+                if (branch == null)
+                {
+                    throw new Exception($"The BranchID {employee.BranchId} not exist");
+                }
+                existEmployee.BranchId = branch.Id;
+            }
+            if (existEmployee.RoleId != employee.RoleId)
+            {
+                var role = await roleRepository.GetByIdAsync(employee.RoleId);
+                if (role == null)
+                {
+                    throw new Exception($"The RoleId {employee.RoleId} not exist");
+                }
+                existEmployee.RoleId = role.Id;
+            }
+
+            existEmployee = await repository.Update(existEmployee);
+            return existEmployee;
         }
 
         public async Task<Employee> Delete(int id)
         {
-            var employee = await db.Employee.FirstOrDefaultAsync(_ => _.Id == id);
+            var employee = await repository.GetByIdAsync(id);
             if (employee == null)
             {
                 throw new Exception($"The Employee Id:{id} was not found");
             }
-
-            db.Employee.Remove(employee);
-            await db.SaveChangesAsync();
+            employee = await repository.Remove(employee);
             return employee;
         }
 

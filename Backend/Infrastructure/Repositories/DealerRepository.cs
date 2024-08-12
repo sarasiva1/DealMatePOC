@@ -31,8 +31,10 @@ public class DealerRepository : IDealerRepository
         {
             throw new Exception($"The DealerID {dealer.Id} not exist");
         }
-        dealer = await repository.AddAsync(dealer);
-        return dealer;
+        existDealer.Name = dealer.Name;
+        existDealer.Address = dealer.Address;
+        existDealer = await repository.Update(existDealer);
+        return existDealer;
     }
 
     public async Task<Dealer> Delete(int id)
