@@ -15,8 +15,8 @@ public class DealerRepository : IDealerRepository
 
     public async Task<Dealer> Create(Dealer dealer)
     {
-        var existDealer = await repository.FindAsync(x => x.Name == dealer.Name);
-        if (existDealer.Any())
+        var existDealer = await repository.FirstOrDefaultAsync(x => x.Name == dealer.Name);
+        if (existDealer != null)
         {
             throw new Exception($"The Dealer {dealer.Name} was already exist");
         }

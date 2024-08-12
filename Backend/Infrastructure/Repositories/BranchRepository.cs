@@ -16,8 +16,8 @@ namespace DealMate.Backend.Infrastructure.Repositories
 
         public async Task<Branch> Create(Branch branch)
         {
-            var existBranch = await repository.FindAsync(x => x.Name == branch.Name);
-            if (existBranch.Any())
+            var existBranch = await repository.FirstOrDefaultAsync(x => x.Name == branch.Name);
+            if (existBranch != null)
             {
                 throw new Exception($"The Branch {branch.Name} was already exist");
             }

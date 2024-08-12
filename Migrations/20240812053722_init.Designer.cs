@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DealMate.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240811071503_Testing")]
-    partial class Testing
+    [Migration("20240812053722_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,27 +23,6 @@ namespace DealMate.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("DealMate.BackEnd.Domain.Aggregates.Test", b =>
-                {
-                    b.Property<int>("TestId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TestId"));
-
-                    b.Property<string>("Testaddress")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Testname")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("TestId");
-
-                    b.ToTable("Test");
-                });
 
             modelBuilder.Entity("DealMate.Backend.Domain.Aggregates.Branch", b =>
                 {

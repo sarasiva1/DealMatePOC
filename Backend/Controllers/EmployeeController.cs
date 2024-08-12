@@ -1,7 +1,6 @@
 ﻿using DealMate.Backend.Domain.Aggregates;
 using DealMate.Backend.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DealMate.Backend.Controllers
@@ -47,6 +46,13 @@ namespace DealMate.Backend.Controllers
         {
             return Ok(await employeeRepository.Delete(id));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> LogIn(string email, string password)
+        {
+            return Ok(await employeeRepository.LogIn(email, password));
+        }
+
 
     }
     

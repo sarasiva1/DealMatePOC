@@ -2,9 +2,8 @@
 using DealMate.Backend.Infrastructure.DB;
 using DealMate.Backend.Infrastructure.Interfaces;
 using DealMate.Backend.Service.Authentication;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace DealMate.Backend.Infrastructure.Repositories
 {
@@ -13,18 +12,20 @@ namespace DealMate.Backend.Infrastructure.Repositories
         private readonly IRepository<Employee> repository;
         private readonly IRepository<Branch> branchRepository;
         private readonly IRepository<Role> roleRepository;
+        private readonly IConfiguration configuration;
         public EmployeeRepository(IRepository<Employee> repository, IRepository<Branch> branchRepository
-            , IRepository<Role> roleRepository)
+            , IRepository<Role> roleRepository, IConfiguration configuration)
         {
             this.repository = repository;
             this.branchRepository = branchRepository;
             this.roleRepository = roleRepository;
+            this.configuration = configuration;
         }
 
         public async Task<Employee> Create(Employee employee)
         {
-            var existEmployee = await repository.FindAsync(x => x.Email == employee.Email);
-            if (existEmployee.Any())
+            var existEmployee = await repository.FirstOrDefaultAsync(x => x.Email == employee.Email);
+            if (existEmployee != null)
             {
                 throw new Exception($"The Employee Email {employee.Name} was already exist");
             }
@@ -83,6 +84,25 @@ namespace DealMate.Backend.Infrastructure.Repositories
             }
             employee = await repository.Remove(employee);
             return employee;
+        }
+
+        public async Task<string> LogIn(string email, string password)
+        {
+            var user = await repository.FirstOrDefaultAsync(x => x.Email == email);
+            if (user == null)
+            {
+                throw new Exception($"The Email:{email} was not found");
+            }
+            else if (user != null && password != user.Password)
+            {
+                throw new Exception($"The Email:{email} and Password:{password} did not match");
+            }
+            var token = JWTToken.GenerateJWTToken(user!, configuration);
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadToken(token) as JwtSecurityToken;
+
+            jwtToken!.Claims.ToList();
+            return token;
         }
 
     }

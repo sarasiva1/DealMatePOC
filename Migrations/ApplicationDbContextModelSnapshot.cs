@@ -21,27 +21,6 @@ namespace DealMate.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("DealMate.BackEnd.Domain.Aggregates.Test", b =>
-                {
-                    b.Property<int>("TestId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TestId"));
-
-                    b.Property<string>("Testaddress")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Testname")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("TestId");
-
-                    b.ToTable("Test");
-                });
-
             modelBuilder.Entity("DealMate.Backend.Domain.Aggregates.Branch", b =>
                 {
                     b.Property<int>("Id")

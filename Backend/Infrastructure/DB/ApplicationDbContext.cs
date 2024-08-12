@@ -1,5 +1,4 @@
 ﻿using DealMate.Backend.Domain.Aggregates;
-using DealMate.BackEnd.Domain.Aggregates;
 using Microsoft.EntityFrameworkCore;
 
 namespace DealMate.Backend.Infrastructure.DB
@@ -18,6 +17,6 @@ namespace DealMate.Backend.Infrastructure.DB
         public DbSet<Branch> Branch { get; set; }
         public DbSet<Permission> Permission { get; set; }
         public DbSet<RolePermission> RolePermission { get; set; }
-        public DbSet<Test> Test { get; set; }
+        
     }
 }

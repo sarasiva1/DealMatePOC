@@ -13,8 +13,8 @@ namespace DealMate.Backend.Infrastructure.Repositories
 
         public async Task<Role> Create(Role role)
         {
-            var existRole = await repository.FindAsync(x => x.Name == role.Name);
-            if (existRole.Any())
+            var existRole = await repository.FirstOrDefaultAsync(x => x.Name == role.Name);
+            if (existRole != null)
             {
                 throw new Exception($"The Role {role.Name} was already exist");
             }
