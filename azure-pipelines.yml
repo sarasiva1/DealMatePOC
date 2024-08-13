@@ -3,26 +3,42 @@ trigger:
 
 pool:
   vmImage: 'ubuntu-latest'
-
+  
 variables:
-  DB_SERVER: '<dealmatepoc123>'
-  DB_NAME: '<postgres>'
-  DB_USER: '<dealmatepoc>'
-  DB_PASSWORD: $(DB_PASSWORD) # Use Azure DevOps Pipeline secrets
-
+  - group: 'DatabaseSettings'
+  
 steps:
-- task: UsePythonVersion@0
+- task: UseDotNet@2
   inputs:
-    versionSpec: '3.x'
-    addToPath: true
+    packageType: 'sdk'
+    version: '6.x'
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    projects: '**/*.csproj'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: '**/*.csproj'
+    arguments: '--configuration Release'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'drop'
 
 - script: |
-    pip install flywaydb
-  displayName: 'Install Flyway'
-
-- script: |
-    flyway -url=jdbc:postgresql://$(DB_SERVER).postgres.database.azure.com:5432/$(DB_NAME) \
-           -user=$(DB_USER) \
-           -password=$(DB_PASSWORD) \
-           migrate
-  displayName: 'Run Flyway Migrations'
+    dotnet tool install dotnet-ef --version 6.0.7 --global
+    dotnet ef database update --connection "Host=$(DB_HOST);Database=$(DB_NAME);Username=$(DB_USER);Password=$(DB_PASSWORD);SslMode=$(DB_SSLMODE);"
+  displayName: 'Apply EF Core Migrations'
+  env:
+    PATH: $(PATH):$(Agent.ToolsDirectory)/dotnet/tools
