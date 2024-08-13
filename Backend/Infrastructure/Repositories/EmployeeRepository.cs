@@ -1,9 +1,8 @@
 ﻿using DealMate.Backend.Domain.Aggregates;
-using DealMate.Backend.Infrastructure.DB;
 using DealMate.Backend.Infrastructure.Interfaces;
 using DealMate.Backend.Service.Authentication;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+using DealMate.Backend.Service.Common;
+using DealMate.Backend.Service.Enforcer;
 
 namespace DealMate.Backend.Infrastructure.Repositories
 {
@@ -13,13 +12,15 @@ namespace DealMate.Backend.Infrastructure.Repositories
         private readonly IRepository<Branch> branchRepository;
         private readonly IRepository<Role> roleRepository;
         private readonly IConfiguration configuration;
+        private readonly IEnforcer enforcer;
         public EmployeeRepository(IRepository<Employee> repository, IRepository<Branch> branchRepository
-            , IRepository<Role> roleRepository, IConfiguration configuration)
+            , IRepository<Role> roleRepository, IConfiguration configuration,IEnforcer enforcer)
         {
             this.repository = repository;
             this.branchRepository = branchRepository;
             this.roleRepository = roleRepository;
             this.configuration = configuration;
+            this.enforcer = enforcer;
         }
 
         public async Task<Employee> Create(Employee employee)
@@ -77,6 +78,7 @@ namespace DealMate.Backend.Infrastructure.Repositories
 
         public async Task<Employee> Delete(int id)
         {
+            await this.enforcer.EnforceAsync(Employee.Permissions.Delete);
             var employee = await repository.GetByIdAsync(id);
             if (employee == null)
             {
@@ -98,10 +100,6 @@ namespace DealMate.Backend.Infrastructure.Repositories
                 throw new Exception($"The Email:{email} and Password:{password} did not match");
             }
             var token = JWTToken.GenerateJWTToken(user!, configuration);
-            var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadToken(token) as JwtSecurityToken;
-
-            jwtToken!.Claims.ToList();
             return token;
         }
 

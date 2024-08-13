@@ -1,14 +1,17 @@
 ﻿using DealMate.Backend.Domain.Aggregates;
 using DealMate.Backend.Infrastructure.Interfaces;
+using DealMate.Backend.Service.Common;
 
 namespace DealMate.Backend.Infrastructure.Repositories
 {
     public class RoleRepository : IRoleRepository
     {
         private readonly IRepository<Role> repository;
-        public RoleRepository(IRepository<Role> repository)
+        private readonly IRepository<RolePermission> rolePermissionRepository;
+        public RoleRepository(IRepository<Role> repository, IRepository<RolePermission> rolePermissionRepository)
         {
             this.repository = repository;
+            this.rolePermissionRepository = rolePermissionRepository;
         }
 
         public async Task<Role> Create(Role role)
@@ -43,6 +46,16 @@ namespace DealMate.Backend.Infrastructure.Repositories
             }
             role = await repository.Remove(role);
             return role;
+        }
+        public async Task<List<Permission?>> GetPermissions(int id)
+        {
+            var role = await this.repository.GetByIdAsync(id);
+            if (role == null)
+            {
+                throw new Exception($"The Role ID {id} not exist");
+            }
+            var permissions = await this.rolePermissionRepository.FindAsync(x => x.RoleId == id);
+            return permissions.Select(x => x.Permission).ToList();
         }
 
     }

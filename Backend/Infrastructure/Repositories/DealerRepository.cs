@@ -1,6 +1,7 @@
 ﻿using DealMate.Backend.Domain.Aggregates;
 using DealMate.Backend.Infrastructure.DB;
 using DealMate.Backend.Infrastructure.Interfaces;
+using DealMate.Backend.Service.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace DealMate.Backend.Infrastructure.Repositories;

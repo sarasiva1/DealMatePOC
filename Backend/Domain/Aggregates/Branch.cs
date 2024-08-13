@@ -1,4 +1,4 @@
-﻿using DealMate.Backend.Service;
+﻿using DealMate.Backend.Service.Common;
 
 namespace DealMate.Backend.Domain.Aggregates;
 

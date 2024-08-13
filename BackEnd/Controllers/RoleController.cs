@@ -1,7 +1,6 @@
 ﻿using DealMate.Backend.Domain.Aggregates;
 using DealMate.Backend.Infrastructure.Interfaces;
-using DealMate.Backend.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Http;
+using DealMate.Backend.Service.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DealMate.Backend.Controllers
@@ -21,13 +20,13 @@ namespace DealMate.Backend.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            return Ok(await repository.GetAllAsync());
+            return Ok(await repository.ListAsync());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await repository.GetByIdAsync(id));
+            return Ok(await repository.GetAsync(id));
         }
 
         [HttpPost]
@@ -46,6 +45,12 @@ namespace DealMate.Backend.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             return Ok(await roleRepository.Delete(id));
+        }
+
+        [HttpGet("{roleId}")]
+        public async Task<IActionResult> GetPermissions(int roleId)
+        {
+            return Ok(await roleRepository.GetPermissions(roleId));
         }
     }
 }
