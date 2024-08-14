@@ -46,5 +46,5 @@ steps:
 - task: AzureWebApp@1
   inputs:
     azureSubscription: 'DealmatePoc'  
-    appName: 'DealmatePoc'                  
+    appName: 'dealmateapp'                  
     package: '$(Build.ArtifactStagingDirectory)/drop/**/*.zip'  
