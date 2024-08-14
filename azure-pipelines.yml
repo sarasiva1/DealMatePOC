@@ -31,14 +31,10 @@ steps:
     publishWebProjects: true
     arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
 
-- script: ls -R $(Build.ArtifactStagingDirectory)/drop
-  displayName: 'List contents of $(Build.ArtifactStagingDirectory)/drop'
-
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/drop'
-    ArtifactName: 'drop'
-    publishLocation: 'Container
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'drop'
 
 - script: |
     dotnet tool install dotnet-ef --version 6.0.7 --global
