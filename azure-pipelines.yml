@@ -43,8 +43,11 @@ steps:
   env:
     PATH: $(PATH):$(Agent.ToolsDirectory)/dotnet/tools
 
+- script: ls -R $(Build.ArtifactStagingDirectory)
+  displayName: 'List contents of $(Build.ArtifactStagingDirectory)'
+
 - task: AzureWebApp@1
   inputs:
     azureSubscription: 'DealmatePoc'  
     appName: 'dealmateapp'                  
-    package: '$(Build.ArtifactStagingDirectory)/drop/**/*.zip'  
+    package: '$(Build.ArtifactStagingDirectory)/**/*.zip'  # Ensure this matches the actual path
