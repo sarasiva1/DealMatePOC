@@ -11,7 +11,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #716cd4;
+}
+
+.auth-page {
+  background-color: var(--blue-600);
 }
 
 code {

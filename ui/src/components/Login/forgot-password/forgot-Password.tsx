@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { regexPatterns } from "../../../common/constants";
 import { loginStyle } from "../../../pages/Login/style";
 import ErrorMessage from "../../common/field-error-message";
+import { PrimeIcons } from "primereact/api";
 
 function ForgotPassword() {
   const [formData, setFormData] = React.useState({} as any);
@@ -138,7 +139,7 @@ function ForgotPassword() {
             </div> */}
           </div>
           <div style={loginStyle.button}>
-            <Button label="Reset" icon="pi pi-cog" />
+            <Button label="Reset" icon={PrimeIcons.COG} type="submit" />
           </div>
         </form>
       </Card>

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { regexPatterns } from "../../../common/constants";
 import { loginStyle } from "../../../pages/Login/style";
 import ErrorMessage from "../../common/field-error-message";
+import { PrimeIcons } from "primereact/api";
 
 const Signup = () => {
   const [formData, setFormData] = React.useState({} as any);
@@ -137,7 +138,7 @@ const Signup = () => {
             </div> */}
           </div>
           <div style={loginStyle.button}>
-            <Button label="SignUp" icon="pi pi-user-plus" />
+            <Button label="SignUp" icon={PrimeIcons.USER_PLUS} type="submit" />
           </div>
         </form>
       </Card>

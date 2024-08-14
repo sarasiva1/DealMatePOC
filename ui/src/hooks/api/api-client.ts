@@ -1,14 +1,16 @@
 import axios from "axios";
+import { environmentalVariable } from "../../common/env-variables";
+import { getData } from "../../common/app-data";
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:8000", 
+  baseURL: environmentalVariable.BASE_URL,
 });
 
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.code === "ERR_NETWORK") {
-      window?.location?.reload();
+      return;
     } else {
       return Promise.reject(error);
     }

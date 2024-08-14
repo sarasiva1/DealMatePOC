@@ -4,14 +4,21 @@ import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { regexPatterns } from "../../common/constants";
 import ErrorMessage from "../../components/common/field-error-message";
 import { loginStyle } from "./style";
+import { PrimeIcons } from "primereact/api";
+import useLoginApi from "../../hooks/api/Login/login";
+import { MutateOptions } from "react-query";
+import { setData } from "../../common/app-data";
 
 const Login = () => {
   const [formData, setFormData] = React.useState({} as any);
   const [fieldErrors, setFieldErrors] = React.useState({} as any);
+  const { useLogin } = useLoginApi();
+  const { mutate: mutateLogin } = useLogin();
+  const navigate = useNavigate();
 
   const handleChange = (e, isValidValue) => {
     const { name, value } = e.target;
@@ -38,12 +45,25 @@ const Login = () => {
     <ErrorMessage message={fieldErrors?.[field]} />
   );
 
-  const handleSubmit = (e: any) => {
-    e?.preventDefault();
-    console.log(formData);
+  const callback = () => {
+    return {
+      onSuccess: (response: any) => {
+        console.log("success", response);
+        setData("token", response?.data);
+      },
+      onError: (error) => {
+        console.log("error", error);
+      },
+    } as MutateOptions;
   };
 
-  console.log(fieldErrors);
+  const handleSubmit = async (e) => {
+    console.log("e", e);
+    e.preventDefault();
+    await mutateLogin(formData, callback());
+  };
+
+  console.log(formData, fieldErrors);
 
   return (
     <div style={loginStyle.loginContainer}>
@@ -63,7 +83,7 @@ const Login = () => {
                   keyfilter={regexPatterns.email}
                   onInput={handleChange}
                   onBlur={handleBlur}
-                  value={formData?.email}
+                  value={formData?.email || ""}
                   invalid={Boolean(fieldErrors?.email)}
                   className="p-input"
                   validateOnly={true}
@@ -81,7 +101,7 @@ const Login = () => {
                   placeholder="Enter Password"
                   onChange={(e) => handleChange(e, true)}
                   onBlur={handleBlur}
-                  value={formData?.password}
+                  value={formData?.password || ""}
                   invalid={Boolean(fieldErrors?.password)}
                   feedback={false}
                   pt={{
@@ -104,7 +124,7 @@ const Login = () => {
             </div>
           </div>
           <div className="mb-3" style={loginStyle.button}>
-            <Button label="Login" icon="pi pi-sign-in" />
+            <Button label="Login" icon={PrimeIcons.SIGN_IN} type="submit" />
           </div>
         </form>
         <div style={{ textAlign: "center" }}>
