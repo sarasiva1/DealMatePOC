@@ -42,3 +42,15 @@ steps:
   displayName: 'Apply EF Core Migrations'
   env:
     PATH: $(PATH):$(Agent.ToolsDirectory)/dotnet/tools
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/drop'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'DealmatePoc'  
+    appName: 'DealmatePoc'                  
+    package: '$(Build.ArtifactStagingDirectory)/drop/**/*.zip'  
