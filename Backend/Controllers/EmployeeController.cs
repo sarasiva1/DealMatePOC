@@ -64,6 +64,13 @@ namespace DealMate.Backend.Controllers
 
         [AllowAnonymous]
         [HttpPost]
+        public async Task<IActionResult> ChangePassword(string email, string password)
+        {
+            return Ok(await employeeRepository.ChangePassword(email, password));
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
         public IActionResult UploadFileFromDevice(IFormFile file)
         {
             return Ok(this.excelService.VehicleProcess(file));

@@ -103,5 +103,17 @@ namespace DealMate.Backend.Infrastructure.Repositories
             return token;
         }
 
+        public async Task<Employee> ChangePassword(string email, string password)
+        {
+            var user = await repository.FirstOrDefaultAsync(x => x.Email == email);
+            if (user == null)
+            {
+                throw new Exception($"The Email:{email} was not found");
+            }
+            user.Password =password;
+            user = await repository.Update(user);
+            return user;
+        }
+
     }
 }
