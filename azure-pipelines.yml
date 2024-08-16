@@ -37,10 +37,9 @@ steps:
     workingDir: 'ui'
   displayName: 'Install npm packages'
 
-- task: npm@1
-  inputs:
-    command: 'npm run build'
-    workingDir: 'ui'
+- script: |
+    npm run build
+  workingDirectory: 'ui'
   displayName: 'Run npm build'
 
 - task: PublishBuildArtifacts@1
