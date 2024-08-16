@@ -17,14 +17,20 @@ builder.Services.AddCors(options =>
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "DealMate API", Version = "v1" });
+});
 
 builder.Services.InfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "DealMate API v1");
+});
 
 app.UseCors("AllowSpecificOrigins");
 //app.UseMultiTenant();
