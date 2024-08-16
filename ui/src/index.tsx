@@ -6,6 +6,7 @@ import App from "./components/app";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ToastContextProvider } from "./components/common/Dialog/Toast/toast";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -17,7 +18,9 @@ root.render(
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <PrimeReactProvider>
-          <App />
+          <ToastContextProvider>
+            <App />
+          </ToastContextProvider>
         </PrimeReactProvider>
       </QueryClientProvider>
     </BrowserRouter>

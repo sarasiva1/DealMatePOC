@@ -10,11 +10,17 @@ import { regexPatterns } from "../../../common/constants";
 import { loginStyle } from "../../../pages/Login/style";
 import ErrorMessage from "../../common/field-error-message";
 import { PrimeIcons } from "primereact/api";
+import { useToastContext } from "../../common/Dialog/Toast/toast";
+import useLoginApi from "../../../hooks/api/Login/login";
+import { MutateOptions } from "react-query";
 
 function ForgotPassword() {
   const [formData, setFormData] = React.useState({} as any);
   const [fieldErrors, setFieldErrors] = React.useState({} as any);
   // const [showPassword, setShowPassword] = React.useState<boolean>(false);
+  const showToast = useToastContext();
+  const { useForgotPassword } = useLoginApi();
+  const { mutate: mutateForgotPassword } = useForgotPassword();
   const navigate = useNavigate();
 
   const handleChange = (e, isValidValue) => {
@@ -51,9 +57,26 @@ function ForgotPassword() {
     <ErrorMessage message={fieldErrors?.[field]} />
   );
 
+  const callback = () => {
+    return {
+      onSuccess: (response: any) => {
+        console.log("success", response);
+        showToast({
+          severity: "success",
+          detail: "Password Changed Successfully",
+        });
+        navigate("/dashboard");
+      },
+      onError: (error: any) => {
+        console.log("error", error);
+        showToast({ severity: "error", detail: error?.message });
+      },
+    } as MutateOptions;
+  };
+
   const handleSubmit = (e: any) => {
     e?.preventDefault();
-    console.log(formData);
+    mutateForgotPassword(formData, callback());
     navigate("/");
   };
 
@@ -81,7 +104,9 @@ function ForgotPassword() {
                   validateOnly={true}
                   required
                 />
-                <label htmlFor="email">Email Id</label>
+                <label htmlFor="email">
+                  Email Id<span style={{ color: "red" }}> *</span>
+                </label>
               </FloatLabel>
               {getErrorNode("email")}
             </div>
@@ -100,7 +125,9 @@ function ForgotPassword() {
                   toggleMask
                   required
                 />
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">
+                  Password<span style={{ color: "red" }}> *</span>
+                </label>
               </FloatLabel>
               {getErrorNode("password")}
             </div>
@@ -119,7 +146,9 @@ function ForgotPassword() {
                   toggleMask
                   required
                 />
-                <label htmlFor="confirmPassword">Confirm Password</label>
+                <label htmlFor="confirmPassword">
+                  Confirm Password <span style={{ color: "red" }}> *</span>
+                </label>
               </FloatLabel>
               {getErrorNode("confirmPassword")}
             </div>

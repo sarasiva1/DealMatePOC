@@ -9,13 +9,23 @@ const useLoginApi = () => {
       const response = await apiClient.post(
         `/api/employee/login?email=${data?.email}&password=${data?.password}`
       );
-      return response;
+      return response?.data;
+    });
+  };
+
+  const useForgotPassword = () => {
+    return useMutation<any, Error>(async (data: any) => {
+      const response = await apiClient.post(
+        `/api/employee/changePassword?email=${data?.email}&password=${data?.password}`
+      );
+      return response?.data;
     });
   };
 
   return React.useMemo(
     () => ({
       useLogin,
+      useForgotPassword,
     }),
     []
   );

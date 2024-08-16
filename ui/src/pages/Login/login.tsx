@@ -1,3 +1,4 @@
+import { PrimeIcons } from "primereact/api";
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { FloatLabel } from "primereact/floatlabel";
@@ -5,17 +6,18 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { regexPatterns } from "../../common/constants";
-import ErrorMessage from "../../components/common/field-error-message";
-import { loginStyle } from "./style";
-import { PrimeIcons } from "primereact/api";
-import useLoginApi from "../../hooks/api/Login/login";
-import { MutateOptions } from "react-query";
 import { setData } from "../../common/app-data";
+import { regexPatterns } from "../../common/constants";
+import { useToastContext } from "../../components/common/Dialog/Toast/toast";
+import ErrorMessage from "../../components/common/field-error-message";
+import useLoginApi from "../../hooks/api/Login/login";
+import { loginStyle } from "./style";
+import { MutateOptions } from "react-query";
 
 const Login = () => {
   const [formData, setFormData] = React.useState({} as any);
   const [fieldErrors, setFieldErrors] = React.useState({} as any);
+  const showToast = useToastContext();
   const { useLogin } = useLoginApi();
   const { mutate: mutateLogin } = useLogin();
   const navigate = useNavigate();
@@ -49,16 +51,20 @@ const Login = () => {
     return {
       onSuccess: (response: any) => {
         console.log("success", response);
-        setData("token", response?.data);
+        if (response) {
+          setData("token", response);
+          showToast({ severity: "success", detail: "Login Successfully" });
+          navigate("/dashboard");
+        }
       },
-      onError: (error) => {
+      onError: (error: any) => {
         console.log("error", error);
+        showToast({ severity: "error", detail: error?.message });
       },
     } as MutateOptions;
   };
 
   const handleSubmit = async (e) => {
-    console.log("e", e);
     e.preventDefault();
     await mutateLogin(formData, callback());
   };
@@ -89,7 +95,9 @@ const Login = () => {
                   validateOnly={true}
                   required
                 />
-                <label htmlFor="email">Email Id</label>
+                <label htmlFor="email">
+                  Email Id<span style={{ color: "red" }}> *</span>
+                </label>
               </FloatLabel>
               {getErrorNode("email")}
             </div>
@@ -111,7 +119,12 @@ const Login = () => {
                   toggleMask
                   required
                 />
-                <label htmlFor="password">Password</label>
+                <label
+                  htmlFor="password"
+                  className={`${fieldErrors?.password ? "text-red-500" : ""}`}
+                >
+                  Password<span style={{ color: "red" }}> *</span>
+                </label>
               </FloatLabel>
               {getErrorNode("password")}
             </div>

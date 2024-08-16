@@ -4,11 +4,11 @@ const setJSONValue = (value) => {
 
 export const getJSONValue = (value) => {
   const jsonText = value;
-  return jsonText?.includes("{") ? JSON.parse(value) : null;
+  return jsonText?.includes("{") ? JSON.parse(value) : value;
 };
 
 export const setData = (key, value) => {
-  if (key && value) {
+  if (key && Boolean(value)) {
     localStorage.setItem(key, setJSONValue(value));
   } else {
     localStorage.removeItem(key);

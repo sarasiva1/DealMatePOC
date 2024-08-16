@@ -13,7 +13,7 @@ const App = () => {
     } else {
       root?.classList.remove("auth-page");
     }
-  }, []);
+  }, [window.location.pathname]);
 
   return <div className="App">{pages}</div>;
 };

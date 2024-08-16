@@ -7,7 +7,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { headerData, sidebarData } from "../../data/sidebard-data";
 
 export const drawerWidth = 80;
-export const drawerWidthExpand = 284;
+export const drawerWidthExpand = 285;
 
 export default function Appsidebar() {
   const [visible, setVisible] = React.useState(true);
@@ -84,7 +84,7 @@ export default function Appsidebar() {
       <div
         style={{
           paddingLeft: visible ? drawerWidthExpand + 20 + "px" : 20 + "px",
-          paddingTop: "100px",
+          // paddingTop: "110px",
         }}
       >
         <Outlet />
