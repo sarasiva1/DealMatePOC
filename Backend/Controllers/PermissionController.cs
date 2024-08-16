@@ -5,15 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DealMate.Backend.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class BranchController : ControllerBase
+    public class PermissionController : ControllerBase
     {
-        private readonly IBranchRepository branchRepository;
-        private readonly IRepository<Branch> repository;
-        public BranchController(IBranchRepository branchRepository, IRepository<Branch> repository)
+        private readonly IPermissionRepository permissionRepository;
+        private readonly IRepository<Permission> repository;
+        public PermissionController(IPermissionRepository permissionRepository, IRepository<Permission> repository)
         {
-            this.branchRepository = branchRepository;
+            this.permissionRepository = permissionRepository;
             this.repository = repository;
         }
 
@@ -30,21 +30,21 @@ namespace DealMate.Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Branch branch)
+        public async Task<IActionResult> Create(Permission permission)
         {
-            return Ok(await branchRepository.Create(branch));
+            return Ok(await permissionRepository.Create(permission));
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] Branch branch)
+        public async Task<IActionResult> Update([FromBody] Permission permission)
         {
-            return Ok(await branchRepository.Update(branch));
+            return Ok(await permissionRepository.Update(permission));
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            return Ok(await branchRepository.Delete(id));
+            return Ok(await permissionRepository.Delete(id));
         }
     }
 }

@@ -7,13 +7,13 @@ namespace DealMate.Backend.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class BranchController : ControllerBase
+    public class RoleController : ControllerBase
     {
-        private readonly IBranchRepository branchRepository;
-        private readonly IRepository<Branch> repository;
-        public BranchController(IBranchRepository branchRepository, IRepository<Branch> repository)
+        private readonly IRoleRepository roleRepository;
+        private readonly IRepository<Role> repository;
+        public RoleController(IRoleRepository roleRepository, IRepository<Role> repository)
         {
-            this.branchRepository = branchRepository;
+            this.roleRepository = roleRepository;
             this.repository = repository;
         }
 
@@ -30,21 +30,27 @@ namespace DealMate.Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Branch branch)
+        public async Task<IActionResult> Create(Role role)
         {
-            return Ok(await branchRepository.Create(branch));
+            return Ok(await roleRepository.Create(role));
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] Branch branch)
+        public async Task<IActionResult> Update([FromBody] Role role)
         {
-            return Ok(await branchRepository.Update(branch));
+            return Ok(await roleRepository.Update(role));
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            return Ok(await branchRepository.Delete(id));
+            return Ok(await roleRepository.Delete(id));
+        }
+
+        [HttpGet("{roleId}")]
+        public async Task<IActionResult> GetPermissions(int roleId)
+        {
+            return Ok(await roleRepository.GetPermissions(roleId));
         }
     }
 }

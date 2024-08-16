@@ -3,7 +3,6 @@ using DealMate.Backend.Infrastructure.Interfaces;
 using DealMate.Backend.Infrastructure.Repositories;
 using DealMate.Backend.Service.Common;
 using DealMate.Backend.Service.Enforcer;
-using DealMate.Backend.Service.ExcelProcess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -76,7 +75,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IPermissionRepository, PermissionRepository>();
         services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
         services.AddScoped<IEnforcer, EnforcerService>();
-        services.AddScoped<IExcelService, ExcelService>();
+        //services.AddScoped<IExcelService, ExcelService>();
         return services;
     }
 }
