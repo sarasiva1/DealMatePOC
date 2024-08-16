@@ -30,12 +30,6 @@ steps:
     command: 'publish'
     publishWebProjects: true
     arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
-    
- - task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.SourcesDirectory)/UI'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
 
 - script: |
     dotnet tool install dotnet-ef --version 6.0.7 --global
