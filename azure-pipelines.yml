@@ -37,19 +37,3 @@ steps:
   displayName: 'Apply EF Core Migrations'
   env:
     PATH: $(PATH):$(Agent.ToolsDirectory)/dotnet/tools
-
-- script: |
-    echo "Listing contents of $(Build.ArtifactStagingDirectory)"
-    ls -R $(Build.ArtifactStagingDirectory)
-  displayName: 'List contents of $(Build.ArtifactStagingDirectory)'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    artifactName: 'drop'
-
-- task: AzureWebApp@1
-  inputs:
-    azureSubscription: 'DealmatePoc'  
-    appName: 'dealmateapp'                  
-    package: '$(Build.ArtifactStagingDirectory)/**/*.zip'  # Ensure this matches the actual path
