@@ -30,24 +30,6 @@ steps:
     command: 'publish'
     publishWebProjects: true
     arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
-
-- task: npm@1
-  inputs:
-    command: 'install'
-    workingDir: 'ui'
-  displayName: 'Install npm packages'
-
-- script: |
-    npm run build
-  workingDirectory: 'ui'
-  displayName: 'Run npm build'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.SourcesDirectory)/ui'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-  displayName: 'Publish Build Artifacts'
   
 - script: |
     dotnet tool install dotnet-ef --version 6.0.7 --global
