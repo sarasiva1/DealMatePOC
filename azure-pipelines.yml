@@ -37,3 +37,15 @@ steps:
   displayName: 'Apply EF Core Migrations'
   env:
     PATH: $(PATH):$(Agent.ToolsDirectory)/dotnet/tools
+
+- script: |
+    npm install
+    npm run build
+  workingDirectory: 'ui'
+  displayName: 'Install and Build UI'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'ui/build'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
