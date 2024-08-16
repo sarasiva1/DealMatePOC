@@ -42,11 +42,8 @@ namespace DealMate.Backend.Controllers
             return Ok(await branchRepository.Update(branch));
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            return Ok(await branchRepository.Delete(id));
-        }
+        
+
 
     }
 }
