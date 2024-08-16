@@ -48,10 +48,5 @@ namespace DealMate.Backend.Controllers
             return Ok(await branchRepository.Delete(id));
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> TestDelete(int id)
-        {
-            return Ok(await branchRepository.Delete(id));
-        }
     }
 }
