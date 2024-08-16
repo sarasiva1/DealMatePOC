@@ -39,8 +39,8 @@ steps:
 
 - task: npm@1
   inputs:
-    npm run build
-  workingDirectory: 'ui'
+    command: 'npm run build'
+    workingDir: 'ui'
   displayName: 'Run npm build'
 
 - task: PublishBuildArtifacts@1
