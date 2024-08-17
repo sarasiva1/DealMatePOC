@@ -17,6 +17,7 @@ namespace DealMate.Backend.Infrastructure.DB
         public DbSet<Branch> Branch { get; set; }
         public DbSet<Permission> Permission { get; set; }
         public DbSet<RolePermission> RolePermission { get; set; }
-        
+        public DbSet<Vehicle> Vehicle { get; set; }
+
     }
 }
